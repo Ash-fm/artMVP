@@ -36,13 +36,13 @@ export default function LoginButton() {
   if (isUser) {
     return (
       <>
-        <HeaderButton onClick={handleSignOut}>Sign Out</HeaderButton>
+        <HeaderButton onClick={handleSignOut}>You're on the list</HeaderButton>
       </>
     );
   } else {
     return (
       <>
-        <HeaderButton onClick={() => handleOpen()}>Sign In</HeaderButton>
+        <HeaderButton onClick={() => handleOpen()}>Get Early Access</HeaderButton>
         <LoginModal open={open} handleClose={handleClose} />
       </>
     );

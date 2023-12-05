@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 import ToggleTheme from "../buttons/ToggleTheme";
+import LoginButton from "../buttons/LoginButton";
 
 export default function Header({ open, handleDrawerToggle }) {
   return (
@@ -31,6 +32,7 @@ export default function Header({ open, handleDrawerToggle }) {
        
         </Link>
         <ToggleTheme />
+        <LoginButton />
       </Toolbar>
     </AppBar>
   );
