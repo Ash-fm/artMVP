@@ -1,15 +1,8 @@
-import ReconnectingWebSocket from "reconnecting-websocket";
-import { addRun } from "../workers/queues/run.queue";
-import { createClient } from '@supabase/supabase-js';
+
+
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 const WS_URL = "wss://rainstorm.city/websocket";
-
-const supabase = createClient(
-  'your-supabase-url', // replace with your Supabase URL
-  'your-supabase-api-key' // replace with your Supabase API key
-);
-
-let txNumber = 1; //find most recent transaction and add 1
 
 const ws = new ReconnectingWebSocket(WS_URL, [], {
   WebSocket: WebSocket,
@@ -27,28 +20,15 @@ ws.addEventListener("open", () => {
   ws.send(JSON.stringify(subscription));
 });
 
-ws.addEventListener("message", async (event) => {
+ws.addEventListener("message", (event) => {
   try {
     let transaction = JSON.parse(event.data);
-    if (transaction.topic) {
-      await supabase
-        .from('transactions')
-        .upsert(
-          {
-            txid: transaction.message.hash,
-            amount: transaction.message.amount,
-            type: transaction.message.block.subtype,
-            account: transaction.message.account,
-            linkAsAccount: transaction.message.block.link_as_account,
-            time: transaction.time,
-            txNumber: txNumber,
-          },
-          { onConflict: ['txid'] }
-        );
-
-      addRun({ txNumber: txNumber });
-      console.log(txNumber);
-      txNumber += 1;
+    // Check if the message is about a transaction confirmation and is a send subtype.
+    if (transaction.topic === "confirmation" && transaction.message.block.subtype === "send") {
+      console.log("Confirmed send transaction detected.");
+      // Use the txid as a random seed.
+      const txid = transaction.message.hash;
+      addBlockToCubicDisarray(txid);
     }
   } catch (error) {
     console.error('Error handling transaction:', error);
@@ -63,5 +43,10 @@ ws.addEventListener("error", (error) => {
   console.error("WebSocket error:", error);
 });
 
-export default ws;
+function addBlockToCubicDisarray(seed) {
+  // Replace with your actual logic for adding a block to the cubic disarray.
+  // The following line is a placeholder for demonstration purposes.
+  console.log(`Adding block to Cubic Disarray with seed: ${seed}`);
+}
 
+export default ws;

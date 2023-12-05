@@ -27,12 +27,6 @@ export default function HomePage() {
         >
           On-chain Art is Better Off-chain
         </Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography>
-          Currently making art inspired by (and derived from!) crypto technology.
-          Art changes, so do we - Join the list for early access
-        </Typography>
         <Link href="/sketchpage" passHref>
           <Button
             variant="outlined"
@@ -43,28 +37,13 @@ export default function HomePage() {
           </Button>
         </Link>
       </Grid>
+      <Grid item xs={4}>
+        <Typography>
+          We are building an art platform inspired by (and derived from!) crypto technology -
+           Join the list for early access
+        </Typography>
+
+      </Grid>
     </Grid>
   );
 }
-
-
-
-
-// "On-chain Art is Better Off-chain"
-
-// "Crypto Art is Better Off-chain"
-
-// "Digital Art Doesn't Need to be On-chain"
-
-// "Digital Art is Better Off-chain"
-
-// currently making art inspired by (and derived from!) crypto technology.
-// Art changes so do we - follow <TwitterLogo /> for new stuff
-
-// Life is better off screen. Life imitates art. Were taking art offscreen
-
-// putting art back where it belongs
-
-// dont kill what you hate (NFTs) Save what you love (physical art)
-
-// buckmister fuller - dont try to kill old bad models - render them obsolete with better models
