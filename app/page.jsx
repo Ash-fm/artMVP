@@ -31,11 +31,7 @@ export default function HomePage() {
       <Grid item xs={4}>
         <Typography>
           Currently making art inspired by (and derived from!) crypto technology.
-          Art changes, so do we - Follow{" "}
-          <TwitterIcon
-            sx={{ width: 24, height: 24, "&:hover": { color: "#0f5179" } }}
-          />{" "}
-          for new stuff
+          Art changes, so do we - Join the list for early access
         </Typography>
         <Link href="/sketchpage" passHref>
           <Button
