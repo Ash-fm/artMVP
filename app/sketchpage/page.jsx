@@ -1,41 +1,67 @@
 "use client"
 
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React from 'react';
+import { Canvas } from '@react-three/fiber';
 
-function Box(props) {
-  // This reference will give us direct access to the mesh
-  const meshRef = useRef();
-
-  // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => {
-    meshRef.current.rotation.x += Math.random() * 0.01;
-    meshRef.current.rotation.y += Math.random() * 0.01;
-  });
-
+function Box({ position, rotation, color }) {
   return (
-    <mesh
-      {...props}
-      ref={meshRef}>
+    <mesh position={position} rotation={rotation}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={props.color || 'orange'} />
+      <meshStandardMaterial color={color} />
     </mesh>
   );
 }
 
-function CubicDisarray() {
-  const numCubes = 100;
+function CubicGrid() {
   const cubes = [];
+  const rows = 22;
+  const cols = 12;
+  const gap = 0.1; // Define a small gap between the cubes
 
-  for (let i = 0; i < numCubes; i++) {
-    const position = [Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5];
-    cubes.push(<Box key={i} position={position} />);
+  for (let y = 0; y < rows; y++) {
+    // Increase randomness as we move down each row
+    const randomFactorY = Math.pow(y / rows, 2); // Quadratic increase towards the bottom
+
+    for (let x = 0; x < cols; x++) {
+      // Increase randomness as we move away from the center
+      const randomFactorX = Math.pow((x - cols / 2) / (cols / 2), 2);
+
+      // Base position for grid alignment
+      const baseX = (x - cols / 2) * (1 + gap);
+      const baseY = -(y - rows / 2) * (1 + gap);
+
+      // Randomized offsets scaled by randomFactorY and randomFactorX
+      const offsetX = (Math.random() - 0.5) * randomFactorX;
+      const offsetY = (Math.random() - 0.5) * randomFactorY;
+      const offsetZ = (Math.random() - 0.5) * 2 * randomFactorY;
+
+      // Combined position with base and offset
+      const posX = baseX + offsetX;
+      const posY = baseY + offsetY;
+      const posZ = offsetZ;
+
+      // Randomize rotation with increasing randomness towards the bottom
+      const rotX = Math.random() * Math.PI * 2 * randomFactorY;
+      const rotY = Math.random() * Math.PI * 2 * randomFactorY;
+      const rotZ = Math.random() * Math.PI * 2 * randomFactorY;
+
+      // Add cube to array with calculated position and rotation
+      cubes.push(
+        <Box
+          key={`${x}-${y}`}
+          position={[posX, posY, posZ]}
+          rotation={[rotX, rotY, rotZ]}
+          color="skyblue"
+        />
+      );
+    }
   }
 
   return (
-    <Canvas>
+    <Canvas camera={{ position: [0, 0, 35], fov: 75 }}>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
+      <directionalLight position={[-10, -10, -10]} intensity={0.5} />
       {cubes}
     </Canvas>
   );
@@ -44,7 +70,7 @@ function CubicDisarray() {
 export default function App() {
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <CubicDisarray />
+      <CubicGrid />
     </div>
   );
 }
