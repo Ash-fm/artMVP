@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 import ToggleTheme from "../buttons/ToggleTheme";
-import LoginButton from "@/app/_components/buttons/LoginButton";
 
 export default function Header({ open, handleDrawerToggle }) {
   return (
