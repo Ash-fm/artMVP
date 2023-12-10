@@ -12,7 +12,7 @@ function Box({ position, rotation, color }) {
   );
 }
 
-function CubicGrid() {
+function CubicGrid({setCubeCount}) {
   const rows = 22;
   const cols = 12;
   const gap = 0.1;
@@ -59,11 +59,14 @@ function CubicGrid() {
             color="skyblue"
           />
         ]);
+
+        setCubeCount(cubes.length + 1);
+
       }, 100);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [cubes, cols, rows, gap]);
+  }, [cubes, cols, rows, gap, setCubeCount]);
 
   return (
     <Canvas camera={{ position: [0, 0, 35], fov: 75 }}>
@@ -76,10 +79,15 @@ function CubicGrid() {
   );
 }
 
-export default function App() {
+export default function Page() {
+  const [cubeCount, setCubeCount] = useState(0);
+
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <CubicGrid />
+      <div style={{position: "absolute", top: "50vw", right: "0"}}> 
+        <span>{"Number of cubes: " + cubeCount}</span>
+      </div>
+      <CubicGrid setCubeCount={setCubeCount} />
     </div>
   );
 }
